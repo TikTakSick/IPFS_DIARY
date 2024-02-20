@@ -1,0 +1,3 @@
+flask
+pinata-python
+python-dotenv
