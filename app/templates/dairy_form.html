@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}日記記載フォーム{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% endblock %}
+{% block body %}
+<form action="{{url_for('make_new_dairy')}}" method="post">
+    <div>
+        <label for="title">タイトル</label><br>
+        <input type="text" name="title" required>
+    </div>
+    <div>
+        <label for="message">内容</label><br>
+        <textarea name="dairy"  cols="50" rows="10" maxlength="200" required></textarea>
+    </div>
+    <button>送信</button>
+</form>
+{% endblock %}

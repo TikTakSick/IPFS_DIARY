@@ -16,6 +16,7 @@ PUBLIC_GATEWAY_URL="..."
 
 # 始め方
 ```
+$ pip install requirements.txt
 $ python3 run.py
 ```
 

@@ -5,3 +5,12 @@ form {
     padding: 20px;
     border: 1px solid;
 }
+
+.diary-title{
+    font-size: 2.0rem;
+}
+
+.diary-content{
+    width: 600px; 
+    height: 230px;
+}

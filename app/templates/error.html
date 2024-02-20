@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPFSピンエラー</title>
+    <title>IPFSピニングエラー</title>
 </head>
 <body>
-    <p>IPFSに，コンテンツを上げる際にエラーが出ました</p>
-    <p>
-    <a href="{{url_for('index')}}">ホーム画面に戻る</a>
-    </p>
+
 </body>
 </html>
+{% extends "base.html" %}
+{% block title %}IPFSピニングエラー{% endblock %}
+{% block body %}
+<p>IPFSにコンテンツを上げる際，エラーが発生しました</p>
+<p>
+    <a href="{{url_for('show_dairy_form')}}">日記入力欄に戻る</a>
+</p>
+<p>
+    <a href="{{url_for('index')}}">ホーム画面に戻る</a>
+</p>
+{% endblock %}

@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPFS日記</title>
-</head>
-<body>
-    <p>
-        <a href="{{url_for('get_all_daily_pinned_by_ipfs')}}">IPFSに登録した日記を見る</a>
-    </p>
-    <p>
-        <a href="{{url_for('show_daily_form')}}">新たに日記を作成する</a>
-    </p>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}IPFS日記{% endblock %}
+{% block body %}
+<p>
+    <a href="{{url_for('get_all_dairy_pinned_by_ipfs')}}">IPFSに登録した日記を見る</a>
+</p>
+<p>
+    <a href="{{url_for('show_dairy_form')}}">新たに日記を作成する</a>
+</p>
+{% endblock %}

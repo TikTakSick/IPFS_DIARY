@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}IPFS日記一覧{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
+<script>
+    function get_dairy_content(ipfs_content_url){
+        fetch(ipfs_content_url)
+	    .then(response => response.json()) // レスポンスデータを取得
+	    .then(data => { // レスポンスデータを処理
+            console.log(data["dairy_content"])
+            return data["dairy_content"]
+	    });
+    };
+</script>
+{% endblock %}
+{% block body %}
+{% for ipfs_diary in ipfs_diaries %}
+<div class="ipfs-diary">
+    <div class="diary-title">
+        {{ipfs_diary.timestamp_title}}
+    </div>
+    <!-- {{PUBLIC_CLOUD_GATEWAY_URL}}{{ipfs_diary.cid}} -->
+    <object data="{{PUBLIC_CLOUD_GATEWAY_URL}}{{ipfs_diary.cid}}" type="application/json"></object>
+    <textarea class="diary-content">
+    </textarea>
+</div>
+<hr>
+{% endfor %}
+<p>
+    <a href="{{url_for('index')}}">ホーム画面に戻る</a>
+</p>
+{% endblock %}
