@@ -60,11 +60,13 @@ def make_new_dairy():
         # タイムスタンプと日付データを取得
         now = datetime.datetime.now()
         now_ts = datetime.datetime.timestamp(now)
-        date_string = now.strftime("%Y-%m-%d %H-%M-%S")
+        date_string = now.strftime("%Y-%m-%d %H:%M:%S")
 
         # ipfsに送るファイルの作成
         timestamp_title = date_string + "__" + dairy_title
-        dairy_filepath = "dairy_txts/" + timestamp_title + ".txt"
+        tmp_save_folder = "dairy_txts/"
+        os.makedirs(tmp_save_folder, exist_ok=True)
+        dairy_filepath = tmp_save_folder + timestamp_title + ".txt"
         with open(dairy_filepath, "w") as f:
             f.write(dairy_content)
 

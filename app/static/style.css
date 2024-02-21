@@ -6,6 +6,12 @@ form {
     border: 1px solid;
 }
 
+p{
+    margin: 0 auto;
+    width: 400px;
+    padding: 20px;
+}
+
 .diary-title{
     font-size: 2.0rem;
 }
