@@ -1,16 +1,15 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 from pinata_python.pinning import Pinning
 import datetime
 import requests
-import sys
+import sys, os
+import json
 sys.path.append("../")
 import settings
 
 
 app = Flask(__name__)
-CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ipfs_dairy.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -20,6 +19,15 @@ db = SQLAlchemy(app)
 class IpfsDiary(db.Model):
     cid = db.Column(db.String(46), primary_key=True)
     timestamp_title= db.Column(db.String(128), nullable=False)
+    
+    def __repr__(self):
+        params =  {
+                "cid" : self.cid,
+                "timestamp_title" : self.timestamp_title
+
+            }
+        json_str = json.dumps(params)
+        return json_str
 
 @app.route("/")
 def hello():
@@ -34,9 +42,6 @@ def get_all_dairy_pinned_by_ipfs():
     ipfs_diaries = IpfsDiary.query.all()
     return render_template("dairy.html", ipfs_diaries=ipfs_diaries, PUBLIC_CLOUD_GATEWAY_URL=settings.PUBLIC_CLOUD_GATEWAY_URL)
 
-# response = requests.get(full_url)
-# print(response.text)
-
 @app.route("/error")
 def error():
     return render_template("error.html")
@@ -48,42 +53,38 @@ def show_dairy_form():
 @app.route("/update", methods=["POST", "GET"])
 def make_new_dairy():
     if request.method == "POST":
-        # タイトルと中身の設定
+        # タイトルと日記内容を受け取る．
         dairy_title = request.form["title"]
         dairy_content = request.form["dairy"]
 
         # タイムスタンプと日付データを取得
         now = datetime.datetime.now()
         now_ts = datetime.datetime.timestamp(now)
-        date_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        date_string = now.strftime("%Y-%m-%d %H-%M-%S")
 
-        # ipfsに送るデータの準備
-        dairy_content_json = {
-            "title": dairy_title, 
-            "dairy_content": dairy_content, 
-            "date": date_string, 
-            "timestamp": now_ts,
-        }
-        options = {
-            'pinataMetada':{
-                'name': str(now_ts)+dairy_title
-            }
-        }
+        # ipfsに送るファイルの作成
+        timestamp_title = date_string + "__" + dairy_title
+        dairy_filepath = "dairy_txts/" + timestamp_title + ".txt"
+        with open(dairy_filepath, "w") as f:
+            f.write(dairy_content)
+
         # ipfsにデータを送る
-        pinata = Pinning(AUTH="jwt", PINATA_JWT_TOKEN=settings.PINATA_JWT)
-        response = pinata.pin_json_to_ipfs(dairy_content_json, options=options)
+        pinata = Pinning(PINATA_API_KEY=settings.PINATA_API_KEY, PINATA_API_SECRET=settings.PINATA_API_SECRET)
+        response = pinata.pin_file_to_ipfs(dairy_filepath)
         print(response)
             
         # データ送信後，cidを取得する
         cid = response["IpfsHash"]
-        print(cid)
         # 日記のメタデータをデータベースに格納する．
         ipfs_diary = IpfsDiary(
             cid=cid,
-            timestamp_title=date_string+"_"+dairy_title
+            timestamp_title=timestamp_title
         )
         db.session.add(ipfs_diary)
         db.session.commit()
+
+        # データベース作成までできれば，対象ファイルを削除する．
+        os.remove(dairy_filepath)
         return redirect(url_for("index"))
         # except:
         #     return redirect(url_for("error"))
