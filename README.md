@@ -1,4 +1,4 @@
-# ipfsを用いた日記アプリ
+# IPFSを用いた日記アプリ
 
 - 開発動機：情報を恒久的に保存する仕組みが作りたい．
   - 昔記録として使われていた木簡が今でも発掘され保管されているように，インターネットの情報を恒久的に保管するシステムを作りたい．
@@ -7,8 +7,8 @@
 
 - IPFS
   - [IPFS](https://ipfs.tech/)は，分散ファイルシステムの一種である．
-  - ipfs上に置かれたファイルやフォルダのコンテンツのIDは，それらコンテンツの内容を元に作成されたものである．また，ipfsにおいて，対象のコンテンツのIDは，CID(content identifier)と呼ばれている．
-  - 中身が```HELLO```のファイルを複数ipfsに置いたとしても，それらのCIDは全て同一である．
+  - ipfs上に置かれたファイルやフォルダのコンテンツのIDは，それらコンテンツの内容を元に作成されたものである．また，ipfsにおいて対象のコンテンツのIDは，CID(content identifier)と呼ばれている．
+  - 例：中身が```HELLO```のファイルを複数ipfsに置いたとしても，それらのCIDは全て同一である．
 
 ## 各フォルダ説明
 - ver1：flaskとSQLAlchemyを用いる．SQLAlchemyには，日記ファイルのCIDとタイムスタンプ付きのタイトルを保存する．ipfsには，日記の内容を記述したテキストファイルを送信する．
@@ -20,7 +20,7 @@
 ## 使用するAPIサービス
 - [Pinata](https://www.pinata.cloud/)：IPFSとの通信に使用．
 - [Infura](https://www.infura.io/)（利用予定）：ブロックチェーンと通信を行いために利用する．
-- [Spheron Network](https://www.spheron.network/)（利用予定）：Pinataでは，ipfs上にhtmlファイルの送信するには有料プランに加入する必要がある．無料で，htmlファイルやjsファイルといった静的ファイルを無料で送信可能な
+- [Spheron Network](https://www.spheron.network/)（利用予定）：Pinataでは，ipfs上にhtmlファイルの送信するには有料プランに加入する必要がある．無料でhtmlファイルやjsファイルといった静的ファイルを送信可能な
 Spheron Networkを使用する．
 
 ## その他
