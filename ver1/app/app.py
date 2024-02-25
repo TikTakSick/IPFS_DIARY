@@ -48,12 +48,13 @@ def get_all_dairy_pinned_by_ipfs():
 def error():
     return render_template("error.html")
 
+
 @app.route("/dairy_form")
 def show_dairy_form():
     return render_template("dairy_form.html")
 
-@app.route("/update", methods=["POST", "GET"])
-def make_new_dairy():
+@app.route("/create", methods=["POST", "GET"])
+def create_new_dairy():
     if request.method == "POST":
         # タイトルと日記内容を受け取る．
         dairy_title = request.form["title"]
@@ -94,6 +95,20 @@ def make_new_dairy():
         #     return redirect(url_for("error"))
     
     return redirect(url_for("index"))
+
+@app.route("/delete/<string:cid>", methods=["GET"])
+def delete_diary_of(cid):
+    # 対象ファイルをunpinする．
+    pinata = Pinning(AUTH="jwt", PINATA_JWT_TOKEN=settings.PINATA_JWT)
+    response = pinata.unpin(cid)
+    print(response)
+    if response==200:
+        # 対象テーブルを削除
+        target_diary = IpfsDiary.query.get(cid)
+        db.session.delete(target_diary)
+        db.session.commit()
+        return redirect(url_for("get_all_dairy_pinned_by_ipfs"))
+    return redirect(url_for("error"))
 
 if __name__ == "__main__":
     with app.app_context():
