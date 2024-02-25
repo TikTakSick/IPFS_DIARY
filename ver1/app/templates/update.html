@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}日記編集{% endblock %}
+{% block body %}
+<div>
+    <label for="title">{{target_diary_title}}</label><br>
+</div>
+<form action="/update_content/{{cid}}" method="post">
+    <div>
+        <label for="message">内容</label><br>
+        <textarea name="dairy"  cols="50" rows="10" maxlength="200" required>{{target_diary_content}}</textarea>
+    </div>
+    <button>送信</button>
+</form>
+<a href="{{url_for('get_all_dairy_pinned_by_ipfs')}}">戻る</a>
+{% endblock %}

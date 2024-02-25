@@ -2,20 +2,19 @@
 {% block title %}IPFS日記一覧{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
 <script type="text/javascript">
     // var ipfs_d = {{ipfs_diaries}};
     // console.log(ipfs_d);
 </script>
 <script>
-    function get_dairy_content(ipfs_content_url){
-        fetch(ipfs_content_url)
-	    .then(response => response.json()) // レスポンスデータを取得
-	    .then(data => { // レスポンスデータを処理
-            console.log(data["dairy_content"])
-            return data["dairy_content"]
-	    });
-    };
+    // function get_dairy_content(ipfs_content_url){
+    //     fetch(ipfs_content_url)
+	//     .then(response => response.json()) // レスポンスデータを取得
+	//     .then(data => { // レスポンスデータを処理
+    //         console.log(data["dairy_content"])
+    //         return data["dairy_content"]
+	//     });
+    // };
 </script>
 {% endblock %}
 {% block body %}
@@ -30,6 +29,8 @@
     <div class="diary-content">
     <object data="{{PUBLIC_CLOUD_GATEWAY_URL}}{{ipfs_diary.cid}}" type="text/plain" width="100%" height="100%"></object>
     </div>
+    <a href="update/{{ipfs_diary.cid}}">この日記の内容を編集</a>
+    <br>
     <a href="delete/{{ipfs_diary.cid}}">この日記を削除</a>
 
 </div>

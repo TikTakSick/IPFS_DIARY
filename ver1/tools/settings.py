@@ -3,7 +3,8 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 
 # 環境変数設定
-dotenv_path = join(dirname(__file__), '.env')
+dotenv_path = join(dirname("../"), '.env')
+print(dotenv_path)
 load_dotenv(dotenv_path)
 
 PINATA_API_KEY = os.environ.get("PINATA_API_KEY")
