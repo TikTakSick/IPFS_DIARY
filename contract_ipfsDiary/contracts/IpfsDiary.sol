@@ -34,4 +34,8 @@ contract IpfsDiary is Ownable{
         Diary memory targetDiary = _idToDiary[_id];
         return targetDiary.cid;
     }
+
+    function reset_diaryIdCounter() external onlyOwner{
+        _diaryIdCounter = 0;
+    }
 }
