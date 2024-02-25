@@ -50,13 +50,9 @@ PUBLIC_GATEWAY_URL="https://<DOMAIN>/ipfs/"
 
 ## 始め方
 ```
+$ cd ver1/app
 $ pip install requirements.txt
-$ python3 run.py
-```
-
-- デバッグモードの場合
-```
-$ cd app
 $ python3 app.py
 ```
+
 

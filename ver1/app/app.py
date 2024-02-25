@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from pinata_python.pinning import Pinning
 import datetime
 import requests
@@ -13,7 +14,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ipfs_dairy.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+db.init_app(app)
 
 # データベース定義
 class IpfsDiary(db.Model):
@@ -39,8 +41,8 @@ def index():
 
 @app.route("/get_all_dairy")
 def get_all_dairy_pinned_by_ipfs():
-    ipfs_diaries = IpfsDiary.query.all()
-    return render_template("dairy.html", ipfs_diaries=ipfs_diaries, PUBLIC_CLOUD_GATEWAY_URL=settings.PUBLIC_CLOUD_GATEWAY_URL)
+    ipfs_diaries = IpfsDiary.query.order_by(desc(IpfsDiary.timestamp_title))
+    return render_template("dairy.html", ipfs_diaries=ipfs_diaries, PUBLIC_CLOUD_GATEWAY_URL=settings.PUBLIC_GATEWAY_URL)
 
 @app.route("/error")
 def error():
@@ -95,5 +97,7 @@ def make_new_dairy():
 
 if __name__ == "__main__":
     with app.app_context():
+        db.session.query(IpfsDiary).delete()
+        db.session.commit()
         db.create_all()
     app.run(debug=True)
