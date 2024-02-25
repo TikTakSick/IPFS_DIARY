@@ -14,7 +14,7 @@
 - flaskとSQLAlchemyを用いる．SQLAlchemyには，日記ファイルのCIDとタイムスタンプ付きのタイトルを保存する．ipfsには，日記の内容を記述したテキストファイルを送信する．
 
 ### contract_ipfsDiary
-- contract_ipfsDiary：スマートコントラクトのデータ．ver1において，SQLAlchemyで保管した情報をブロックチェーン（テストネット）に記載するために利用する．下記のver2以降で使用予定．
+- contract_ipfsDiary：スマートコントラクトのデータ．ver1において，SQLAlchemyで保管した情報をブロックチェーン（テストネット）上のスマートコントラクト，ブロックチェーン上にデプロイするために利用する．下記のver2以降で使用予定．
 ### ver2（予定）
 - スマートコントラクトを用いる．ブロックチェーンおよびスマートコントラクトとの通信には，[Infura](https://www.infura.io/)のAPIサービスを活用し，バックエンド(python)側で処理を行う．
 ### ver3(予定)
